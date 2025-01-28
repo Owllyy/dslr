@@ -30,6 +30,9 @@ def getMinOrMax(values: list[int], sort: LimitType):
 
 def std(values: list[int]) -> float :
     meanValues = mean(values)
-    variance = (sum((x - meanValues)**2 for x in values)) / count(values)
+    somme = 0
+    for x in values:
+        somme += (x - meanValues)**2
+    variance = somme / count(values)
     ret = math.sqrt(variance)
     return ret
