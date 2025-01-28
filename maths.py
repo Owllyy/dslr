@@ -21,8 +21,8 @@ def mean(col):
 
 def quartiles(col):
     lenght = count(col)
-    quartile_size = lenght / 4
-    return {float(col[quartile_size]), float(col[lenght / 2]), float(col[lenght / 2 + quartile_size])}
+    quartile_size = round(lenght / 4)
+    return (col[quartile_size], col[round(lenght / 2)], col[round(lenght / 2) + quartile_size])
 
 def getMinOrMax(values: list[int], sort: LimitType): 
     values.sort()
