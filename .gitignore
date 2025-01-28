@@ -2,3 +2,4 @@ venv
 .venv
 datasets
 datasets.tgz
+__pycache__
