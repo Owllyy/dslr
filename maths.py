@@ -1,3 +1,15 @@
+from enum import Enum
+import math
+
+class LimitType(Enum):
+    MIN = "min"
+    MAX = "max"
+
+def count(array):
+    i = 0
+    for _ in array:
+        i += 1
+    return i
 
 def mean(col):
     sum = 0
@@ -8,8 +20,16 @@ def mean(col):
     return sum / lenght
 
 def quartiles(col):
-    lenght = 0
-    for line in col:
-        lenght += 1
+    lenght = count(col)
     quartile_size = lenght / 4
     return {float(col[quartile_size]), float(col[lenght / 2]), float(col[lenght / 2 + quartile_size])}
+
+def getMinOrMax(values: list[int], sort: LimitType): 
+    values.sort()
+    return values[0] if sort == LimitType.MIN else values[-1]
+
+def std(values: list[int]) -> float :
+    meanValues = mean(values)
+    variance = (sum((x - meanValues)**2 for x in values)) / count(values)
+    ret = math.sqrt(variance)
+    return ret
