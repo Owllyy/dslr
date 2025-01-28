@@ -25,7 +25,6 @@ def quartiles(col):
     return (col[quartile_size], col[round(lenght / 2)], col[round(lenght / 2) + quartile_size])
 
 def getMinOrMax(values: list[int], sort: LimitType): 
-    values.sort()
     return values[0] if sort == LimitType.MIN else values[-1]
 
 def std(values: list[int]) -> float :
