@@ -36,7 +36,9 @@ def processDataframe(dataFrame: pandas.DataFrame):
 def main():
     dataFrame = openCsv('./datasets/dataset_train.csv')
     procecedDataFrame = processDataframe(dataFrame)
-    print(procecedDataFrame)
+    print(procecedDataFrame.to_string())
 
 if (__name__ == "__main__"):
+    pandas.set_option('display.max_columns', None)
+    pandas.set_option('display.max_rows', None)
     main()
