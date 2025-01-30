@@ -5,7 +5,7 @@ from maths import *
 def processColumn(col: pandas.Series):
     values = {}
 
-    clearedCol = col.dropna().to_list() # Clear NaN and return values as array
+    clearedCol = col.to_list() # Return values as array
     clearedCol.sort() # Sort is needed by quartiles and min/max
 
     values['count'] = count(clearedCol)
@@ -20,13 +20,9 @@ def processColumn(col: pandas.Series):
 
     return values
 
-def cleanDataFrame(dataFrame: pandas.DataFrame):
-    clearedDataFrame = dataFrame.drop(['Index'], axis='columns')
-    return clearedDataFrame
-
 def processDataframe(dataFrame: pandas.DataFrame):
     procecedColums = {}
-    clearedDataFrame = cleanDataFrame(dataFrame)
+    clearedDataFrame = cleanDataFrame(dataFrame) # Remove index col + NaN
 
     for col in clearedDataFrame.columns:
         procecedColums[col] = processColumn(clearedDataFrame[col])
@@ -34,9 +30,12 @@ def processDataframe(dataFrame: pandas.DataFrame):
     return (pandas.DataFrame(procecedColums))
 
 def main():
-    dataFrame = openCsv('./datasets/dataset_train.csv')
+    fileDataFrame = openCsv('./datasets/dataset_train.csv')
+    dataFrame = getNumericsFromDataFrame(fileDataFrame)
     procecedDataFrame = processDataframe(dataFrame)
-    print(procecedDataFrame)
+    print(procecedDataFrame.to_string())
 
 if (__name__ == "__main__"):
+    pandas.set_option('display.max_columns', None)
+    pandas.set_option('display.max_rows', None)
     main()
