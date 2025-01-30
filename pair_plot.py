@@ -7,7 +7,7 @@ HOUSE_LABEL = "Hogwarts House"
 def main():
     fileDataFrame = pandas.read_csv('./datasets/dataset_train.csv')
     numericdataFrame = getNumericsFromDataFrame(fileDataFrame)
-    numericdataFrame = cleanDataFrame(numericdataFrame)
+    numericdataFrame = clearDataFrame(numericdataFrame)
     numericdataFrame = standardizeDataFrame(numericdataFrame)
     numericdataFrame[HOUSE_LABEL] = fileDataFrame[HOUSE_LABEL]
     houses = numericdataFrame[HOUSE_LABEL].unique()

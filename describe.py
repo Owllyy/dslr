@@ -22,7 +22,7 @@ def processColumn(col: pandas.Series):
 
 def processDataframe(dataFrame: pandas.DataFrame):
     procecedColums = {}
-    clearedDataFrame = cleanDataFrame(dataFrame) # Remove index col + NaN
+    clearedDataFrame = clearDataFrame(dataFrame) # Remove index col + NaN
 
     for col in clearedDataFrame.columns:
         procecedColums[col] = processColumn(clearedDataFrame[col])

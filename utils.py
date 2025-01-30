@@ -21,10 +21,10 @@ def standardizeDataFrame(dataFrame: pandas.DataFrame) -> pandas.DataFrame:
         newDataFrame.update({col: standardiweCol})
     return pandas.DataFrame(newDataFrame)
 
-def cleanDataFrame(dataFrame: pandas.DataFrame) -> pandas.DataFrame:
-    cleanedDataFrame = dataFrame.drop(['Index'], axis='columns')
-    cleanedDataFrame = cleanedDataFrame.dropna()
-    return cleanedDataFrame
+def clearDataFrame(dataFrame: pandas.DataFrame) -> pandas.DataFrame:
+    clearedDataFrame = dataFrame.drop(['Index'], axis='columns')
+    clearedDataFrame = clearedDataFrame.dropna()
+    return clearedDataFrame
 
 def getNumericsFromDataFrame(dataFrame: pandas.DataFrame) -> pandas.DataFrame:
     numericDataFrame = dataFrame.select_dtypes(include=['number'])
