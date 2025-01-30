@@ -2,33 +2,35 @@ import pandas as pandas
 import matplotlib.pyplot as plt
 from utils import *
 from maths import *
-import numpy as np
 
+HOUSE_LABEL = "Hogwarts House"
 def main():
     fileDataFrame = pandas.read_csv('./datasets/dataset_train.csv')
-    # (a,b,c,d) = splitHouse(fileDataFrame)
-    dataFrameA = fileDataFrame.select_dtypes(include=['number'])
-    dataFrameA = dataFrameA.drop(['Index'], axis='columns')
-    # print("dataFrameA = ", dataFrameA)
-    # dataFrameB = b.select_dtypes(include=['number'])
-    # dataFrameB = dataFrameB.drop(['Index'], axis='columns')
+    dataFrame = cleanDataFrame(fileDataFrame)
     
-    x_column = 'Arithmancy'
+    numericdataFrame = getNumericsFromDataFrame(fileDataFrame)
+    numericdataFrame[HOUSE_LABEL] = dataFrame[HOUSE_LABEL]
+
+    houses = numericdataFrame[HOUSE_LABEL].unique()
+    colors = {house: color for house, color in zip(houses, ['red', 'blue', 'purple', 'green'])}
+    
+    x_column = 'Defense Against the Dark Arts'
     y_column = 'Astronomy'
 
-    # Créer un scatter plot
     plt.figure(figsize=(10, 6))
-    
-    plt.scatter(dataFrameA[x_column], dataFrameA[y_column], color='blue', label='house 1')
-    # plt.scatter(dataFrameB[x_column], dataFrameB[y_column], color='red', label='house 2')
-    
-    # plt.scatter(dataFrame[x_column], dataFrame[y_column], alpha=0.5)
     plt.title(f'Scatter plot de {x_column} vs {y_column}')
     plt.xlabel(x_column)
     plt.ylabel(y_column)
+    for house, color in colors.items():
+        data = numericdataFrame[numericdataFrame[HOUSE_LABEL] == house]
+        plt.scatter(
+            data[x_column],
+            data[y_column],
+            color=color,
+            label=house
+        )
+    plt.legend(title='Maisons')
     plt.show()
-    
-
 
 if (__name__ == "__main__"):
     pandas.set_option('display.max_columns', None)
