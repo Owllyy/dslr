@@ -6,10 +6,10 @@ from maths import *
 HOUSE_LABEL = "Hogwarts House"
 def main():
     fileDataFrame = pandas.read_csv('./datasets/dataset_train.csv')
-    dataFrame = cleanDataFrame(fileDataFrame)
-    numericdataFrame = getNumericsFromDataFrame(dataFrame)
+    numericdataFrame = getNumericsFromDataFrame(fileDataFrame)
+    numericdataFrame = cleanDataFrame(numericdataFrame)
     numericdataFrame = standardizeDataFrame(numericdataFrame)
-    numericdataFrame[HOUSE_LABEL] = dataFrame[HOUSE_LABEL]
+    numericdataFrame[HOUSE_LABEL] = fileDataFrame[HOUSE_LABEL]
     houses = numericdataFrame[HOUSE_LABEL].unique()
     colors = {house: color for house, color in zip(houses, ['red', 'blue', 'purple', 'green'])}
     pandas.plotting.scatter_matrix(
