@@ -1,5 +1,6 @@
 from enum import Enum
 import math
+import numpy as numpy
 
 class LimitType(Enum):
     MIN = "min"
@@ -35,3 +36,11 @@ def std(values: list[int]) -> float :
     variance = somme / count(values)
     ret = math.sqrt(variance)
     return ret
+
+def sigmoid(x):
+    if x >= 0:
+        z = numpy.exp(-x)
+        return 1 / (1 + z)
+    else:
+        z = numpy.exp(x)
+        return z / (1 + z)
