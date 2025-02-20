@@ -1,6 +1,7 @@
 from enum import Enum
 import math
-import numpy as numpy
+import numpy
+import pandas
 
 class LimitType(Enum):
     MIN = "min"
@@ -20,27 +21,34 @@ def mean(col):
         lenght += 1
     return sum / lenght
 
-def quartiles(col):
-    lenght = count(col)
-    quartile_size = round(lenght / 4)
-    return (col[quartile_size], col[round(lenght / 2)], col[round(lenght / 2) + quartile_size])
+def quartiles(collumn: pandas.DataFrame):
+    length = count(collumn)
+    quartile_size = length // 4
+    return (collumn[quartile_size], collumn[length // 2], collumn[length // 2 + quartile_size])
 
 def getMinOrMax(values: list[int], sort: LimitType): 
     return values[0] if sort == LimitType.MIN else values[-1]
 
 def std(values: list[int]) -> float :
     meanValues = mean(values)
-    somme = 0
+    somme = 0 
     for x in values:
         somme += (x - meanValues)**2
     variance = somme / count(values)
     ret = math.sqrt(variance)
     return ret
 
-def sigmoid(x):
-    if x >= 0:
-        z = numpy.exp(-x)
-        return 1 / (1 + z)
+def sigmoid(x: float) -> float :
+    return 1 / (1 + numpy.exp(-x))
+    
+def cost(prediction: float, y: bool) -> float:
+    if (y):
+        return -math.log(prediction)
     else:
-        z = numpy.exp(x)
-        return z / (1 + z)
+        return -math.log(1 - prediction)
+
+def costMean(prediction: list[float], houses: list[int]) -> float:
+    len = min(len(prediction), len(houses))
+    costs = 0.0
+    for i in range(0, len):
+        costs += cost(prediction[i], )
