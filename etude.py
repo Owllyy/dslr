@@ -20,29 +20,30 @@ class LogisticRegression(object):
         cost = (1 / m) * (np.sum(-y.T.dot(np.log(h)) - (1 - y).T.dot(np.log(1 - h))))
         return cost
     
-    def _gradient_descent(Logreg,X,h,theta,y_onevsall,m): # This function calculates the theta value by gradient descent
-        gradient_value = np.dot(X.T, (h - y_onevsall)) / m
+    def _gradient_descent(Logreg, X, h, theta, houses_onevsall, houses_col_size): # This function calculates the theta value by gradient descent
+        gradient_value = np.dot(X.T, (h - houses_onevsall)) / houses_col_size
         theta -= Logreg.alpha * gradient_value
+        
         return theta
     
-    def fit(Logreg, X, y): #This function primarily calculates the optimal theta value using which we predict the future data
+    def fit(Logreg, X, houses): #This function primarily calculates the optimal theta value using which we predict the future data
         print("Fitting the given dataset..")
         Logreg.theta = []
         Logreg.cost = []
         X = np.insert(X, 0, 1, axis=1)
-        m = len(y) # Taille de la col maison
-        for i in np.unique(y): # Nombre de maisons differentes (4 dans notre cas)
+        m = len(houses) # Taille de la col maison
+        for house in np.unique(houses): # Nombre de maisons differentes (4 dans notre cas)
             #print('Descending the gradient for label type ' + str(i) + 'vs Rest')
-            y_onevsall = np.where(y == i, 1, 0) # tableau de verite des maisons ([1, 0, 0, 0])  
+            houses_onevsall = np.where(houses == house, 1, 0) # Column maisons normaliser ([1, 0, 0, 0, 0, 1, 1, 0 ...])  
             theta = np.zeros(X.shape[1]) # Ligne de dataset (matieres) fill avec des 0
             cost = []
             for _ in range(Logreg.n_iter):
-                z = X.dot(theta) # premier tour de boucle z vaut un tableau de 0 
-                h = Logreg._sigmoid_function(z) # h represente le poid des matieres; le premier tour de boucle h vaut [0.5, 0.5, 0.5, 0.5, 0.5]
-                theta = Logreg._gradient_descent(X, h, theta, y_onevsall, m)
-                cost.append(Logreg._cost_function(h, y_onevsall)) 
-            Logreg.theta.append((theta, i))
-            Logreg.cost.append((cost,i))
+                z = X.dot(theta) # premier tour de boucle z vaut un tableau du nombre de ligne dans x rempli de 0 
+                h = Logreg._sigmoid_function(z) # h represente la probabiliter par ligne aue la maison soit house; le premier tour de boucle h vaut [0.5, 0.5, 0.5, 0.5, 0.5 ...]
+                theta = Logreg._gradient_descent(X, h, theta, houses_onevsall, m)
+                cost.append(Logreg._cost_function(h, houses_onevsall)) 
+            Logreg.theta.append((theta, house))
+            Logreg.cost.append((cost,house))
         return Logreg
 
     def predict(Logreg, X): # this function calls the max predict function to classify the individul feauter
