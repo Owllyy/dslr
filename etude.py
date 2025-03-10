@@ -39,7 +39,7 @@ class LogisticRegression(object):
             cost = []
             for _ in range(Logreg.n_iter):
                 z = X.dot(theta) # premier tour de boucle z vaut un tableau du nombre de ligne dans x rempli de 0 
-                h = Logreg._sigmoid_function(z) # h represente la probabiliter par ligne aue la maison soit house; le premier tour de boucle h vaut [0.5, 0.5, 0.5, 0.5, 0.5 ...]
+                h = Logreg._sigmoid_function(z) # h represente la probabiliter par ligne que la maison soit house; le premier tour de boucle h vaut [0.5, 0.5, 0.5, 0.5, 0.5 ...]
                 theta = Logreg._gradient_descent(X, h, theta, houses_onevsall, m)
                 cost.append(Logreg._cost_function(h, houses_onevsall)) 
             Logreg.theta.append((theta, house))
