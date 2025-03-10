@@ -38,21 +38,21 @@ def std(values: list[int]) -> float :
     ret = math.sqrt(variance)
     return ret
 
-def sigmoid(x: float) -> float :
+def sigmoid(x) -> float :
     return 1 / (1 + numpy.exp(-x))
     
-def cost(prediction: float, y: bool) -> float:
+def costFunction(prediction: float, y: bool) -> float:
     if (y):
         return -math.log(prediction)
     else:
         return -math.log(1 - prediction)
 
 def costMean(prediction: list[float], houses: list[int]) -> float:
-    len = min(len(prediction), len(houses))
+    length = min(len(prediction), len(houses))
     costs = 0.0
-    for i in range(0, len):
-        costs += cost(prediction[i], houses[i])
-    return costs / len
+    for i in range(0, length):
+        costs += costFunction(prediction[i], houses[i])
+    return costs / length
 
 
 LEARNING_RATE = 0.01
@@ -68,14 +68,14 @@ def gradient_descent(data: pandas.DataFrame, prediction: list[float], verity: li
 
 Probability = float
 
-ITTERATION_NUMBER = 100
+ITTERATION_NUMBER = 4000
 # Return theta  and the cost for all houses
 def fit(data, houses) -> tuple[list[float], float]:
-    if numpy.shape(data)[1] != len(houses):
-        raise Exception("Error: Unmatching data size")
+    if numpy.shape(data)[0] != len(houses):
+        raise Exception("Error: Unmatching data size. data size = ", numpy.shape(data)[1], " = houses len = ", len(houses), len(data))
 
     data = numpy.insert(data, 0, 1, axis=1) # intercept value
-    data_lenght = len(numpy.shape(data)[1]) # Taille de la col maison
+    data_lenght = numpy.shape(data)[1] # Taille de la col maison
     thetas = []
     costs = []
 
@@ -86,8 +86,10 @@ def fit(data, houses) -> tuple[list[float], float]:
         for _ in range(ITTERATION_NUMBER):
             weight: list[float] = data.dot(theta)
             predicted: list[Probability] = sigmoid(weight)
-            theta = gradient_descent(data, predicted, real, theta, data_lenght)
-            cost.append(cost(predicted, real))
-        thetas.append(theta)
-        costs.append(costMean(cost, house))
+            theta = gradient_descent(data, predicted, real, theta)
+            cost.append(costMean(predicted, real))
+        thetas.append((theta, house))
+        costs.append((cost, house))
     return (thetas, costs)
+
+

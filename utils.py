@@ -1,5 +1,6 @@
 import pandas as pandas
 from maths import *
+import json
 
 def splitHouse(dataFrame: pandas.DataFrame):
     houseRavenclaw = dataFrame[dataFrame["Hogwarts House"] == "Ravenclaw"]
@@ -29,3 +30,16 @@ def clearDataFrame(dataFrame: pandas.DataFrame) -> pandas.DataFrame:
 def getNumericsFromDataFrame(dataFrame: pandas.DataFrame) -> pandas.DataFrame:
     numericDataFrame = dataFrame.select_dtypes(include=['number'])
     return numericDataFrame
+
+def saveThetas(data): #TODO: Error
+    data_json = [(arr.tolist(), house) for arr, house in data]
+    with open("data.json", "w") as f:
+        json.dump(data_json, f)
+
+def readTheta() -> tuple[numpy.ndarray, str]: #TODO: Error
+    with open("data.json", "r") as f:
+        loaded_data_json = json.load(f)
+
+    return [(numpy.array(arr), house) for arr, house in loaded_data_json]
+
+    

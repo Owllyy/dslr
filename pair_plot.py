@@ -24,7 +24,8 @@ def main():
     for house, color in colors.items():
         plt.scatter([], [], label=house, color=color)
     plt.legend(title='Maisons', bbox_to_anchor=(1, 0.7))
-    plt.show()
+    # plt.show()
+    plt.savefig('pairplot.png')
 
 if (__name__ == "__main__"):
     pandas.set_option('display.max_columns', None)
