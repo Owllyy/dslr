@@ -2,6 +2,23 @@ import pandas as pandas
 from maths import *
 import json
 
+FEATURES = [
+    # 'Arithmancy',
+    'Astronomy',
+    'Herbology',
+    'Defense Against the Dark Arts',
+    # 'Divination',
+    # 'Muggle Studies',
+    'Ancient Runes',
+    # 'History of Magic', 
+    # 'Transfiguration',
+    # 'Potions',
+    # 'Care of Magical Creatures',
+    'Charms',
+    # 'Flying'
+    # "Astronomy", "Herbology", "Ancient Runes", "Charms", "Defense Against the Dark Arts"
+]
+
 def splitHouse(dataFrame: pandas.DataFrame):
     houseRavenclaw = dataFrame[dataFrame["Hogwarts House"] == "Ravenclaw"]
     houseSlytherin = dataFrame[dataFrame["Hogwarts House"] == "Slytherin"]
@@ -24,7 +41,8 @@ def standardizeDataFrame(dataFrame: pandas.DataFrame) -> pandas.DataFrame:
 
 def clearDataFrame(dataFrame: pandas.DataFrame) -> pandas.DataFrame:
     clearedDataFrame = dataFrame.drop(['Index'], axis='columns')
-    clearedDataFrame = clearedDataFrame.dropna()
+    numeric_columns = clearedDataFrame.select_dtypes(include=['int64', 'float64']).columns
+    clearedDataFrame[numeric_columns] = clearedDataFrame[numeric_columns].fillna(clearedDataFrame[numeric_columns].mean())
     return clearedDataFrame
 
 def getNumericsFromDataFrame(dataFrame: pandas.DataFrame) -> pandas.DataFrame:
@@ -42,4 +60,15 @@ def readTheta() -> tuple[numpy.ndarray, str]: #TODO: Error
 
     return [(numpy.array(arr), house) for arr, house in loaded_data_json]
 
-    
+def score(predictedHouses, verificationHouses):
+    score = sum(predictedHouses == verificationHouses) / len(verificationHouses)
+    return score
+
+HOUSE_LABEL = "Hogwarts House"
+def predictionSubSet(dataFrame: pandas.DataFrame) -> tuple[pandas.DataFrame, tuple[pandas.DataFrame, pandas.Series]]:
+    dataFrameSplit = [dataFrame.iloc[:-300], dataFrame.iloc[-300:]]
+    predictionSet = dataFrameSplit[1]
+    houses = predictionSet['Hogwarts House']
+    features =  predictionSet.drop([HOUSE_LABEL], axis='columns')
+    trainDataFrame = dataFrameSplit[0]
+    return (trainDataFrame, (features, houses))

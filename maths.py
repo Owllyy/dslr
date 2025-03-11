@@ -54,8 +54,7 @@ def costMean(prediction: list[float], houses: list[int]) -> float:
         costs += costFunction(prediction[i], houses[i])
     return costs / length
 
-
-LEARNING_RATE = 0.01
+LEARNING_RATE = 0.1
 def gradient_descent(data: pandas.DataFrame, prediction: list[float], verity: list[float], theta: list[float]) -> list[float]:
     data_len = len(prediction)
 
@@ -66,9 +65,7 @@ def gradient_descent(data: pandas.DataFrame, prediction: list[float], verity: li
     
     return theta
 
-Probability = float
-
-ITTERATION_NUMBER = 4000
+ITTERATION_NUMBER = 2000
 # Return theta  and the cost for all houses
 def fit(data, houses) -> tuple[list[float], float]:
     if numpy.shape(data)[0] != len(houses):
@@ -80,12 +77,12 @@ def fit(data, houses) -> tuple[list[float], float]:
     costs = []
 
     for house in numpy.unique(houses):
-        real: list[Probability] = numpy.where(houses == house, 1, 0)  
+        real: list[float] = numpy.where(houses == house, 1, 0)  
         theta: list[float] = numpy.zeros(data_lenght)
         cost: list[float] = []
         for _ in range(ITTERATION_NUMBER):
             weight: list[float] = data.dot(theta)
-            predicted: list[Probability] = sigmoid(weight)
+            predicted: list[float] = sigmoid(weight)
             theta = gradient_descent(data, predicted, real, theta)
             cost.append(costMean(predicted, real))
         thetas.append((theta, house))
