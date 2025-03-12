@@ -8,7 +8,7 @@ COLORS = ['red', 'blue', 'purple', 'green']
 def main():
     fileDataFrame = pandas.read_csv('./datasets/dataset_train.csv')
     numericdataFrame = getNumericsFromDataFrame(fileDataFrame)
-    numericdataFrame = clearDataFrame(numericdataFrame)
+    numericdataFrame = clearDataFrame(numericdataFrame, True)
     numericdataFrame = standardizeDataFrame(numericdataFrame)
     numericdataFrame[HOUSE_LABEL] = fileDataFrame[HOUSE_LABEL]
     houses = numericdataFrame[HOUSE_LABEL].unique()

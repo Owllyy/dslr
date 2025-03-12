@@ -22,6 +22,10 @@ FEATURES = [
     # 'Flying'
 ]
 
+def exitWithMessage(message: str):
+    print(message)
+    exit()
+
 def splitHouse(dataFrame: pandas.DataFrame):
     houseRavenclaw = dataFrame[dataFrame["Hogwarts House"] == "Ravenclaw"]
     houseSlytherin = dataFrame[dataFrame["Hogwarts House"] == "Slytherin"]
@@ -42,34 +46,48 @@ def standardizeDataFrame(dataFrame: pandas.DataFrame) -> pandas.DataFrame:
         newDataFrame.update({col: standardiweCol})
     return pandas.DataFrame(newDataFrame)
 
-def clearDataFrame(dataFrame: pandas.DataFrame) -> pandas.DataFrame:
+def clearDataFrame(dataFrame: pandas.DataFrame, dropna = False) -> pandas.DataFrame:
     clearedDataFrame = dataFrame.drop(['Index'], axis='columns')
     numeric_columns = clearedDataFrame.select_dtypes(include=['int64', 'float64']).columns
-    clearedDataFrame[numeric_columns] = clearedDataFrame[numeric_columns].fillna(clearedDataFrame[numeric_columns].mean())
+    if (dropna):
+        clearedDataFrame = clearedDataFrame.dropna()
+    else:
+        clearedDataFrame[numeric_columns] = clearedDataFrame[numeric_columns].fillna(clearedDataFrame[numeric_columns].mean())
     return clearedDataFrame
 
 def getNumericsFromDataFrame(dataFrame: pandas.DataFrame) -> pandas.DataFrame:
     numericDataFrame = dataFrame.select_dtypes(include=['number'])
     return numericDataFrame
 
-def saveThetas(data): #TODO: Error
+def saveThetas(data):
     data_json = [(arr.tolist(), house) for arr, house in data]
-
-    with open("data.json", "w") as f:
-        json.dump(data_json, f)
-        
+    
+    try:
+        with open("data.json", "w") as f:
+            json.dump(data_json, f)
+    except Exception:
+        exitWithMessage("Probleme lors de la creation du fichier")
+    
 def saveHouses(houses):
     housesLen = len(houses)
     data = {
         'Index': list(range(housesLen)),
         'Hogwarts House': houses
     }
-    df = pandas.DataFrame(data)
-    df.to_csv('houses.csv', index=False)
+    try:
+        df = pandas.DataFrame(data)
+        df.to_csv('houses.csv', index=False)
+    except Exception:
+        exitWithMessage("Probleme lors de la creation du fichier")
 
-def readTheta() -> tuple[numpy.ndarray, str]: #TODO: Error
-    with open("data.json", "r") as f:
-        loaded_data_json = json.load(f)
+def readTheta() -> tuple[numpy.ndarray, str]:
+    try:
+        with open("data.json", "r") as f:
+            loaded_data_json = json.load(f)
+    except FileNotFoundError:
+        exitWithMessage("File not found")
+    except Exception:
+        exitWithMessage("Probleme avec le fichier data.json")
 
     return [(numpy.array(arr), house) for arr, house in loaded_data_json]
 
@@ -79,19 +97,15 @@ def score(predictedHouses, verificationHouses):
 
 HOUSE_LABEL = "Hogwarts House"
 def predictionSubSet(dataFrame: pandas.DataFrame) -> tuple[pandas.DataFrame, tuple[pandas.DataFrame, pandas.Series]]:
-    trainDataFrame, predictionSet = train_test_split(dataFrame, test_size=400, random_state=97)
+    # trainDataFrame, predictionSet = train_test_split(dataFrame, test_size=400, random_state=97)
     # dataFrameSplit = [train_df, test_df]
-    # dataFrameSplit = [dataFrame.iloc[:-150], dataFrame.iloc[-150:]]
-    # predictionSet = dataFrameSplit[1]
+    dataFrameSplit = [dataFrame.iloc[:-150], dataFrame.iloc[-150:]]
+    predictionSet = dataFrameSplit[1]
     houses = predictionSet['Hogwarts House']
     features =  predictionSet.drop([HOUSE_LABEL], axis='columns')
-    # trainDataFrame = dataFrameSplit[0]
+    trainDataFrame = dataFrameSplit[0]
     # print((trainDataFrame, (features, houses)))
     return (trainDataFrame, (features, houses))
-
-def exitWithMessage(message: str):
-    print(message)
-    exit()
 
 def parseArgs(argv, argc) -> str:
     if (argc < 2):
