@@ -10,11 +10,10 @@ def main():
     numericdataFrame = getNumericsFromDataFrame(fileDataFrame)
     numericdataFrame = clearDataFrame(numericdataFrame)
     numericdataFrame = standardizeDataFrame(numericdataFrame)
-    # numericdataFrame = numericdataFrame[FEATURES]
     numericdataFrame[HOUSE_LABEL] = fileDataFrame[HOUSE_LABEL]
     houses = numericdataFrame[HOUSE_LABEL].unique()
     colors = {house: color for house, color in zip(houses, COLORS)}
-    pandas.plotting.scatter_matrix(
+    axes = pandas.plotting.scatter_matrix(
         numericdataFrame.drop(HOUSE_LABEL, axis=1),
         figsize=(15, 15),
         marker='o',
@@ -22,12 +21,23 @@ def main():
         s=1,
         alpha=0.8,
         c=numericdataFrame[HOUSE_LABEL].map(colors),
-    ) # TODO: Check color histogram
+    )
     for house, color in colors.items():
         plt.scatter([], [], label=house, color=color)
     plt.legend(title='Maisons', bbox_to_anchor=(1, 0.7))
+
+
+    for ax in axes.flatten():
+        ax.set_xlabel(ax.get_xlabel(), rotation=45, ha='right', fontsize=10)
+        ax.set_ylabel(ax.get_ylabel(), rotation=45, ha='right', fontsize=10)
+        ax.set_xticks([])
+        ax.set_yticks([])
+
+
+    plt.xticks(rotation=45, ha='right')
+    plt.yticks(rotation=45, ha='right')
+
     plt.show()
-    # plt.savefig('pairplot.png') TODO: decide if necessary
 
 if (__name__ == "__main__"):
     pandas.set_option('display.max_columns', None)

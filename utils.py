@@ -5,7 +5,6 @@ import os
 import os.path
 import csv
 import random
-from sklearn.model_selection import train_test_split
 
 FEATURES = [
     # 'Arithmancy',
@@ -55,6 +54,7 @@ def getNumericsFromDataFrame(dataFrame: pandas.DataFrame) -> pandas.DataFrame:
 
 def saveThetas(data): #TODO: Error
     data_json = [(arr.tolist(), house) for arr, house in data]
+
     with open("data.json", "w") as f:
         json.dump(data_json, f)
         
