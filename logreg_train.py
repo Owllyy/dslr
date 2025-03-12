@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from utils import *
 from maths import *
 import numpy as numpy
+import sys
 
 def showCost(costs: tuple[list[float], str]):
     plt.figure(figsize=(10, 6))
@@ -18,7 +19,8 @@ def showCost(costs: tuple[list[float], str]):
     plt.show()
 
 def main():
-    fileDataFrame = openCsv('./datasets/dataset_train.csv') #TODO: Ajouter le path du fichier en parametre du programme (Surement faire une gestion d'erreur)
+    filePath = parseArgs(sys.argv, len(sys.argv))
+    fileDataFrame = openCsv(filePath)
     clearedDataFrame = clearDataFrame(fileDataFrame)
     trainDataFrame, (predictionSet, verificationHouses) = predictionSubSet(clearedDataFrame)
     

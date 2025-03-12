@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from utils import *
 from maths import *
 import numpy as numpy
+import sys
 
 def predict(features, thetas):
     if features.shape[1] != len(thetas[0][0]):
@@ -22,7 +23,8 @@ def predict(features, thetas):
 
 #TODO: clean
 def main():
-    fileData = openCsv('./datasets/dataset_test.csv') #TODO: Ajouter le path du fichier en parametre du programme (Surement faire une gestion d'erreur)
+    filePath = parseArgs(sys.argv, len(sys.argv))
+    fileData = openCsv(filePath)
     
     clearedDataFrame = clearDataFrame(fileData)
     trainDataFrame, (predictionSet, verificationHouses) = predictionSubSet(clearedDataFrame)
@@ -32,8 +34,7 @@ def main():
     thetas = readTheta()
     features = numericdataFrame[FEATURES]
     predictions = predict(features, thetas)
-    
-    # TODO: Creer un fichier csv avec les maison (format sur le sujet)
+    saveHouses(predictions)
     
     # Cette partie est pour debug
     i = 0
