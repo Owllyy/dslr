@@ -9,8 +9,8 @@ def processColumn(col: pandas.Series):
     clearedCol.sort() # Sort is needed by quartiles and min/max
 
     values['count'] = count(clearedCol)
-    values['mean'] = mean(clearedCol)
-    values['std'] = std(clearedCol)
+    values['mean'] = ft_mean(clearedCol)
+    values['std'] = ft_std(clearedCol)
     values['min'] = getMinOrMax(clearedCol, LimitType.MIN)
     quartilesValues = quartiles(clearedCol)
     values['25%'] = quartilesValues[0]

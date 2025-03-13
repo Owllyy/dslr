@@ -3,8 +3,6 @@ from maths import *
 import json
 import os
 import os.path
-import csv
-import random
 
 FEATURES = [
     # 'Arithmancy',
@@ -40,8 +38,8 @@ def openCsv(path: str) -> pandas.DataFrame:
 def standardizeDataFrame(dataFrame: pandas.DataFrame) -> pandas.DataFrame:
     newDataFrame = {}
     for col in dataFrame:
-        meanValue = mean(dataFrame[col])
-        stdValue = std(dataFrame[col])
+        meanValue = ft_mean(dataFrame[col])
+        stdValue = ft_std(dataFrame[col])
         standardiweCol = (dataFrame[col] - meanValue) / stdValue
         newDataFrame.update({col: standardiweCol})
     return pandas.DataFrame(newDataFrame)

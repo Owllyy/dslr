@@ -13,7 +13,7 @@ def count(array):
         i += 1
     return i
 
-def mean(col):
+def ft_mean(col):
     sum = 0
     lenght = 0
     for line in col:
@@ -29,8 +29,8 @@ def quartiles(collumn: pandas.DataFrame):
 def getMinOrMax(values: list[int], sort: LimitType): 
     return values[0] if sort == LimitType.MIN else values[-1]
 
-def std(values: list[int]) -> float :
-    meanValues = mean(values)
+def ft_std(values: list[int]) -> float :
+    meanValues = ft_mean(values)
     somme = 0 
     for x in values:
         somme += (x - meanValues)**2
