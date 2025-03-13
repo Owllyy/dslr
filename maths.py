@@ -81,8 +81,8 @@ def fit(data, houses) -> tuple[list[float], float]:
         theta: list[float] = numpy.zeros(data_lenght)
         cost: list[float] = []
         for _ in range(ITTERATION_NUMBER):
-            weight: list[float] = data.dot(theta)
-            predicted: list[float] = sigmoid(weight)
+            weights: list[float] = data.dot(theta)
+            predicted: list[float] = sigmoid(weights)
             theta = gradient_descent(data, predicted, real, theta)
             cost.append(costMean(predicted, real))
         thetas.append((theta, house))

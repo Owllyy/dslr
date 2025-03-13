@@ -5,6 +5,7 @@ import os
 import os.path
 import csv
 import random
+from sklearn.model_selection import train_test_split
 
 FEATURES = [
     # 'Arithmancy',
@@ -12,7 +13,7 @@ FEATURES = [
     'Herbology',
     # 'Defense Against the Dark Arts',
     'Divination',
-    # 'Muggle Studies',
+    'Muggle Studies',
     'Ancient Runes',
     # 'History of Magic', 
     # 'Transfiguration',
@@ -96,14 +97,22 @@ def score(predictedHouses, verificationHouses):
     return score
 
 HOUSE_LABEL = "Hogwarts House"
-def predictionSubSet(dataFrame: pandas.DataFrame) -> tuple[pandas.DataFrame, tuple[pandas.DataFrame, pandas.Series]]:
-    # trainDataFrame, predictionSet = train_test_split(dataFrame, test_size=400, random_state=97)
+def predictionSubSet(dataFrame: pandas.DataFrame, seed = 0) -> tuple[pandas.DataFrame, tuple[pandas.DataFrame, pandas.Series]]:
+    # trainDataFrame, predictionSet = train_test_split(dataFrame, test_size=400, random_state=seed)
     # dataFrameSplit = [train_df, test_df]
-    dataFrameSplit = [dataFrame.iloc[:-150], dataFrame.iloc[-150:]]
-    predictionSet = dataFrameSplit[1]
+    # dataFrameSplit = [dataFrame.iloc[:-150], dataFrame.iloc[-150:]]
+    # predictionSet = dataFrameSplit[1]
+    
+    
+    trainDataFrame = dataFrame.copy()
+    predictionSet = dataFrame.copy()
+    dataFrameSplit = train_test_split(dataFrame, test_size=400, random_state=seed)
+    qwe, predictionSet = dataFrameSplit
     houses = predictionSet['Hogwarts House']
     features =  predictionSet.drop([HOUSE_LABEL], axis='columns')
-    trainDataFrame = dataFrameSplit[0]
+    # houses = predictionSet['Hogwarts House']
+    # features =  predictionSet.drop([HOUSE_LABEL], axis='columns')
+    # trainDataFrame = dataFrameSplit[0]
     # print((trainDataFrame, (features, houses)))
     return (trainDataFrame, (features, houses))
 
