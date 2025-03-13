@@ -1,6 +1,7 @@
 import pandas as pandas
 from utils import *
 from maths import *
+import sys
 
 def processColumn(col: pandas.Series):
     values = {}
@@ -9,8 +10,8 @@ def processColumn(col: pandas.Series):
     clearedCol.sort() # Sort is needed by quartiles and min/max
 
     values['count'] = count(clearedCol)
-    values['mean'] = mean(clearedCol)
-    values['std'] = std(clearedCol)
+    values['mean'] = ft_mean(clearedCol)
+    values['std'] = standardDeviation(clearedCol)
     values['min'] = getMinOrMax(clearedCol, LimitType.MIN)
     quartilesValues = quartiles(clearedCol)
     values['25%'] = quartilesValues[0]
@@ -30,7 +31,8 @@ def processDataframe(dataFrame: pandas.DataFrame):
     return (pandas.DataFrame(procecedColums))
 
 def main():
-    fileDataFrame = openCsv('./datasets/dataset_train.csv')
+    filePath = parseArgs(sys.argv, len(sys.argv))
+    fileDataFrame = openCsv(filePath)
     dataFrame = getNumericsFromDataFrame(fileDataFrame)
     procecedDataFrame = processDataframe(dataFrame)
     print(procecedDataFrame.to_string())
