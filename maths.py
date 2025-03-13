@@ -13,13 +13,35 @@ def count(array):
         i += 1
     return i
 
-def ft_mean(col):
+def ft_mean(data: list[float]):
     sum = 0
     lenght = 0
-    for line in col:
+    for line in data:
         sum += line
         lenght += 1
     return sum / lenght
+
+def variance(data: list[float]) -> float:
+    mean: float = ft_mean(data)
+    squared_diffs: list[float] = []
+
+    for x in data:
+        squared_diffs.append((x - mean) ** 2)
+
+    return ft_mean(squared_diffs)
+
+def skewness(data: list[float]) -> float:
+    mean: float = ft_mean(data)
+    std_dev: float = standardDeviation(data)
+    lenght = len(data)
+    
+    skew: float = 0.
+    for x in data:
+        skew += ((x - mean) / std_dev) ** 3
+    
+    correction_factor: float = lenght / ((lenght - 1) * (lenght - 2))
+
+    return skew * correction_factor
 
 def quartiles(collumn: pandas.DataFrame):
     length = count(collumn)
