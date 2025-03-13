@@ -2,13 +2,15 @@ import pandas as pandas
 import matplotlib.pyplot as plt
 from utils import *
 from maths import *
+import sys
 
 def clearDataframe(dataFrame):
     clearedDataframe = dataFrame.dropna()
     return clearedDataframe.drop(['Index'], axis='columns')
 
 def main():
-    dataframe = pandas.read_csv('./datasets/dataset_train.csv')
+    filePath = parseArgs(sys.argv, len(sys.argv))
+    dataframe = pandas.read_csv(filePath)
     dataframe = clearDataframe(dataframe)
     colors = ["red", "green", "blue", "purple"]
     labels = ["Gryffindor", "Slytherin", "Hufflepuff", "Ravenclaw"]

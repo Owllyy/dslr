@@ -59,14 +59,14 @@ def main():
         trainDataFrame, (predictionSet, verificationHouses) = predictionSubSet(clearedDataFrame, seed)
         houses = trainDataFrame['Hogwarts House']
         
-        numericdataFrame = getNumericsFromDataFrame(trainDataFrame)
-        feature1 = trainDataFrame["Astronomy"]
-        feature2 = trainDataFrame["Defense Against the Dark Arts"]
-        correlation = numpy.corrcoef(feature1, feature2)[0, 1]
-        print(f"Corrélation entre Astronomy et Herbology : {correlation}")
-        analyze_features(numericdataFrame, houses)
+        # numericdataFrame = getNumericsFromDataFrame(trainDataFrame)
+        # feature1 = trainDataFrame["Astronomy"]
+        # feature2 = trainDataFrame["Defense Against the Dark Arts"]
+        # correlation = numpy.corrcoef(feature1, feature2)[0, 1]
+        # print(f"Corrélation entre Astronomy et Herbology : {correlation}")
+        # analyze_features(numericdataFrame, houses)
+        # exit()
         
-        exit()
         numericdataFrame = getNumericsFromDataFrame(trainDataFrame)
         numericdataFrame = standardizeDataFrame(numericdataFrame)
         features = numericdataFrame[FEATURES]
