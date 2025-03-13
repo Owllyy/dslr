@@ -29,7 +29,7 @@ def quartiles(collumn: pandas.DataFrame):
 def getMinOrMax(values: list[int], sort: LimitType): 
     return values[0] if sort == LimitType.MIN else values[-1]
 
-def ft_std(values: list[int]) -> float :
+def standardDeviation(values: list[int]) -> float :
     meanValues = ft_mean(values)
     somme = 0 
     for x in values:

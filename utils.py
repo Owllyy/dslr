@@ -10,10 +10,10 @@ FEATURES = [
     'Herbology',
     # 'Defense Against the Dark Arts',
     'Divination',
-    # 'Muggle Studies',
+    'Muggle Studies',
     'Ancient Runes',
     # 'History of Magic', 
-    # 'Transfiguration',
+    'Transfiguration',
     # 'Potions',
     # 'Care of Magical Creatures',
     'Charms',
@@ -39,7 +39,7 @@ def standardizeDataFrame(dataFrame: pandas.DataFrame) -> pandas.DataFrame:
     newDataFrame = {}
     for col in dataFrame:
         meanValue = ft_mean(dataFrame[col])
-        stdValue = ft_std(dataFrame[col])
+        stdValue = standardDeviation(dataFrame[col])
         standardiweCol = (dataFrame[col] - meanValue) / stdValue
         newDataFrame.update({col: standardiweCol})
     return pandas.DataFrame(newDataFrame)
