@@ -35,8 +35,21 @@ def predict(features, thetas):
     
     return predictions
 
+def analyze_features(numericdataFrame: pandas.DataFrame, houses: pandas.Series):
+    feature1 = numericdataFrame["Astronomy"]
+    feature2 = numericdataFrame["Herbology"]
+
+    # Convertir les maisons en valeurs numériques pour la corrélation (ex. : one-hot encoding simplifié)
+    houses_numeric = houses.factorize()[0]  # Convertit en 0, 1, 2, 3 pour Gryffindor, Hufflepuff, etc.
+
+    corr1 = numpy.corrcoef(feature1, houses_numeric)[0, 1]
+    corr2 = numpy.corrcoef(feature2, houses_numeric)[0, 1]
+
+    print(f"Corrélation de Astronomy avec la cible : {corr1}")
+    print(f"Corrélation de Defense Against the Dark Arts avec la cible : {corr2}")
+
 def main():
-    LENGTH = 60
+    LENGTH = 40
     totalAccuracy = 0
     for i in range(LENGTH):
         seed = random.randint(1, 100)
@@ -45,6 +58,15 @@ def main():
         clearedDataFrame = clearDataFrame(fileDataFrame)
         trainDataFrame, (predictionSet, verificationHouses) = predictionSubSet(clearedDataFrame, seed)
         houses = trainDataFrame['Hogwarts House']
+        
+        numericdataFrame = getNumericsFromDataFrame(trainDataFrame)
+        feature1 = trainDataFrame["Astronomy"]
+        feature2 = trainDataFrame["Defense Against the Dark Arts"]
+        correlation = numpy.corrcoef(feature1, feature2)[0, 1]
+        print(f"Corrélation entre Astronomy et Herbology : {correlation}")
+        analyze_features(numericdataFrame, houses)
+        
+        exit()
         numericdataFrame = getNumericsFromDataFrame(trainDataFrame)
         numericdataFrame = standardizeDataFrame(numericdataFrame)
         features = numericdataFrame[FEATURES]
