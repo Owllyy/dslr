@@ -36,7 +36,9 @@ def predict(features, thetas):
     return predictions
 
 def main():
-    for i in range(40):
+    LENGTH = 60
+    totalAccuracy = 0
+    for i in range(LENGTH):
         seed = random.randint(1, 100)
         filePath = parseArgs(sys.argv, len(sys.argv))
         fileDataFrame = openCsv(filePath)
@@ -54,12 +56,12 @@ def main():
         featureToPredict = numericdataFramePredict[FEATURES]
         thetas = ret[0]
         predictions = predict(featureToPredict, thetas)
-        
-        # print(len(featureToPredict))
-        # print(len(verificationHouses.array))
+
         accuracy = score(predictions, verificationHouses.array)
+        totalAccuracy = totalAccuracy + accuracy
         print(f"Précision du modèle : {accuracy * 100:.2f}%")
         # break
+    print(f"Moyenne Précision du modèle : {(totalAccuracy / LENGTH) * 100:.2f}%")
 
 if (__name__ == "__main__"):
     pandas.set_option('display.max_columns', None)
