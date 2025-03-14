@@ -4,14 +4,10 @@ from utils import *
 from maths import *
 import sys
 
-def clearDataframe(dataFrame):
-    clearedDataframe = dataFrame.dropna()
-    return clearedDataframe.drop(['Index'], axis='columns')
-
 def main():
     filePath = parseArgs(sys.argv, len(sys.argv))
     dataframe = pandas.read_csv(filePath)
-    dataframe = clearDataframe(dataframe)
+    dataframe = clearDataFrame(dataframe, True)
     colors = ["red", "green", "blue", "purple"]
     labels = ["Gryffindor", "Slytherin", "Hufflepuff", "Ravenclaw"]
     plt.ylabel("frenquency")

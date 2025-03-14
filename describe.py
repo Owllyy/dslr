@@ -18,6 +18,8 @@ def processColumn(col: pandas.Series):
     values['50%'] = quartilesValues[1]
     values['75%'] = quartilesValues[2]
     values['max'] = getMinOrMax(clearedCol, LimitType.MAX)
+    values['bonus_variance'] = variance(clearedCol)
+    values['bonus_skewness'] = skewness(clearedCol)
 
     return values
 
