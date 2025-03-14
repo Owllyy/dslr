@@ -16,11 +16,11 @@ FEATURES = [
     'Muggle Studies',
     'Ancient Runes',
     # 'History of Magic', 
-    'Transfiguration',
+    # 'Transfiguration',
     # 'Potions',
     # 'Care of Magical Creatures',
     'Charms',
-    'Flying'
+    # 'Flying'
 ]
 
 def exitWithMessage(message: str):
