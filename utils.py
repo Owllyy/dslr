@@ -3,6 +3,7 @@ from maths import *
 import json
 import os
 import os.path
+from sklearn.model_selection import train_test_split
 
 FEATURES = [
     # 'Arithmancy',
@@ -95,13 +96,13 @@ def score(predictedHouses, verificationHouses):
 
 HOUSE_LABEL = "Hogwarts House"
 def predictionSubSet(dataFrame: pandas.DataFrame) -> tuple[pandas.DataFrame, tuple[pandas.DataFrame, pandas.Series]]:
-    # trainDataFrame, predictionSet = train_test_split(dataFrame, test_size=400, random_state=97)
+    trainDataFrame, predictionSet = train_test_split(dataFrame, test_size=400, random_state=41)
     # dataFrameSplit = [train_df, test_df]
-    dataFrameSplit = [dataFrame.iloc[:-150], dataFrame.iloc[-150:]]
-    predictionSet = dataFrameSplit[1]
+    # dataFrameSplit = [dataFrame.iloc[:-150], dataFrame.iloc[-150:]]
+    # predictionSet = dataFrameSplit[1]
     houses = predictionSet['Hogwarts House']
     features =  predictionSet.drop([HOUSE_LABEL], axis='columns')
-    trainDataFrame = dataFrameSplit[0]
+    # trainDataFrame = dataFrameSplit[0]
     # print((trainDataFrame, (features, houses)))
     return (trainDataFrame, (features, houses))
 

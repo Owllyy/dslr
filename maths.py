@@ -76,7 +76,8 @@ def costMean(prediction: list[float], houses: list[int]) -> float:
         costs += costFunction(prediction[i], houses[i])
     return costs / length
 
-LEARNING_RATE = 0.1
+LEARNING_RATE = 0.001
+# LEARNING_RATE = 0.1
 def gradient_descent(data: pandas.DataFrame, prediction: list[float], verity: list[float], theta: list[float]) -> list[float]:
     data_len = len(prediction)
 
@@ -112,3 +113,33 @@ def fit(data, houses) -> tuple[list[float], float]:
     return (thetas, costs)
 
 
+BATCH_SIZE = 32
+EPOCH_NUMBER = 400
+# Return theta  and the cost for all houses
+def fitMiniBatch(data, houses) -> tuple[list[float], float]:
+    if numpy.shape(data)[0] != len(houses):
+        raise Exception("Error: Unmatching data size. data size = ", numpy.shape(data)[1], " = houses len = ", len(houses), len(data))
+
+    data = numpy.insert(data, 0, 1, axis=1) # intercept value
+    n_samples, n_features = data.shape
+    thetas = []
+    costs = []
+
+    for house in numpy.unique(houses):
+        real: list[float] = numpy.where(houses == house, 1, 0)  
+        theta: list[float] = numpy.zeros(n_features)
+        cost: list[float] = []
+        for epoch in range(EPOCH_NUMBER):
+            indices = numpy.random.permutation(n_samples) # Melange les indices du tableau, donc l'orde dans lequel on va le parcourir pour chaque epoch
+            for start_idx in range(0, n_samples, BATCH_SIZE):
+                batch_indices = indices[start_idx:start_idx + BATCH_SIZE] # Selectionne BATCH_SIZE index
+                batch_data = data[batch_indices]
+                batch_real = real[batch_indices]
+                
+                weight: list[float] = batch_data.dot(theta)
+                predicted: list[float] = sigmoid(weight)
+                theta = gradient_descent(batch_data, predicted, batch_real, theta)
+                cost.append(costMean(predicted, batch_real))
+        thetas.append((theta, house))
+        costs.append((cost, house))
+    return (thetas, costs)
