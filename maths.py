@@ -114,7 +114,7 @@ def fit(data, houses) -> tuple[list[float], float]:
 
 
 BATCH_SIZE = 32
-EPOCH_NUMBER = 400
+EPOCH_NUMBER = 1000
 # Return theta  and the cost for all houses
 def fitMiniBatch(data, houses) -> tuple[list[float], float]:
     if numpy.shape(data)[0] != len(houses):
@@ -130,7 +130,7 @@ def fitMiniBatch(data, houses) -> tuple[list[float], float]:
         theta: list[float] = numpy.zeros(n_features)
         cost: list[float] = []
         for epoch in range(EPOCH_NUMBER):
-            indices = numpy.random.permutation(n_samples) # Melange les indices du tableau, donc l'orde dans lequel on va le parcourir pour chaque epoch
+            indices = numpy.random.permutation(n_samples) # Melange les indices du tableau, donc l'ordre dans lequel on va le parcourir pour chaque epoch
             for start_idx in range(0, n_samples, BATCH_SIZE):
                 batch_indices = indices[start_idx:start_idx + BATCH_SIZE] # Selectionne BATCH_SIZE index
                 batch_data = data[batch_indices]
