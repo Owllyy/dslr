@@ -2,14 +2,12 @@ import pandas as pandas
 import matplotlib.pyplot as plt
 from utils import *
 from maths import *
-
-def clearDataframe(dataFrame):
-    clearedDataframe = dataFrame.dropna()
-    return clearedDataframe.drop(['Index'], axis='columns')
+import sys
 
 def main():
-    dataframe = pandas.read_csv('./datasets/dataset_train.csv')
-    dataframe = clearDataframe(dataframe)
+    filePath = parseArgs(sys.argv, len(sys.argv))
+    dataframe = pandas.read_csv(filePath)
+    dataframe = clearDataFrame(dataframe, True)
     colors = ["red", "green", "blue", "purple"]
     labels = ["Gryffindor", "Slytherin", "Hufflepuff", "Ravenclaw"]
     plt.ylabel("frenquency")

@@ -2,12 +2,14 @@ import pandas as pandas
 import matplotlib.pyplot as plt
 from utils import *
 from maths import *
+import sys
 
 HOUSE_LABEL = "Hogwarts House"
 def main():
-    fileDataFrame = pandas.read_csv('./datasets/dataset_train.csv')
+    filePath = parseArgs(sys.argv, len(sys.argv))
+    fileDataFrame = pandas.read_csv(filePath)
     numericdataFrame = getNumericsFromDataFrame(fileDataFrame)
-    numericdataFrame = clearDataFrame(numericdataFrame)
+    numericdataFrame = clearDataFrame(numericdataFrame, True)
     numericdataFrame[HOUSE_LABEL] = fileDataFrame[HOUSE_LABEL]
     houses = numericdataFrame[HOUSE_LABEL].unique()
     colors = {house: color for house, color in zip(houses, ['red', 'blue', 'purple', 'green'])}

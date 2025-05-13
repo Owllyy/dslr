@@ -3,3 +3,7 @@ venv
 datasets
 datasets.tgz
 __pycache__
+*.json
+*.txt
+*.png
+*.csv
