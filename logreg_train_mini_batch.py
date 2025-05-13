@@ -21,11 +21,9 @@ def showCost(costs: tuple[list[float], str]):
 def main():
     filePath = parseArgs(sys.argv, len(sys.argv))
     fileDataFrame = openCsv(filePath)
-    clearedDataFrame = clearDataFrame(fileDataFrame)
-    trainDataFrame, (predictionSet, verificationHouses) = predictionSubSet(clearedDataFrame)
-    
-    houses = trainDataFrame['Hogwarts House']
-    numericdataFrame = getNumericsFromDataFrame(trainDataFrame)
+    clearedDataFrame = clearDataFrame(fileDataFrame)    
+    houses = clearedDataFrame['Hogwarts House']
+    numericdataFrame = getNumericsFromDataFrame(clearedDataFrame)
     numericdataFrame = standardizeDataFrame(numericdataFrame)
     features = numericdataFrame[FEATURES]
     ret = fitMiniBatch(features, houses)

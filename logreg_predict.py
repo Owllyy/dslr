@@ -27,8 +27,7 @@ def main():
     fileData = openCsv(filePath)
     
     clearedDataFrame = clearDataFrame(fileData)
-    trainDataFrame, (predictionSet, verificationHouses) = predictionSubSet(clearedDataFrame)
-    numericdataFrame = getNumericsFromDataFrame(predictionSet)
+    numericdataFrame = getNumericsFromDataFrame(clearedDataFrame)
     numericdataFrame = standardizeDataFrame(numericdataFrame)
     
     thetas = readTheta()
@@ -37,14 +36,14 @@ def main():
     saveHouses(predictions)
     
     # Cette partie est pour debug
-    i = 0
-    for prediction in predictions:
-        if (prediction != verificationHouses.array[i]):
-            print("Not same value: Our prediction = ", prediction, " - Right house = ", verificationHouses.array[i])
-        i = i + 1
+    # i = 0
+    # for prediction in predictions:
+    #     if (prediction != verificationHouses.array[i]):
+    #         print("Not same value: Our prediction = ", prediction, " - Right house = ", verificationHouses.array[i])
+    #     i = i + 1
     
-    accuracy = score(predictions, verificationHouses.array)
-    print(f"Précision du modèle : {accuracy * 100:.2f}%")
+    # accuracy = score(predictions, verificationHouses.array)
+    # print(f"Précision du modèle : {accuracy * 100:.2f}%")
     # --------------------------------------------------------------------
     
 if (__name__ == "__main__"):
