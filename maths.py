@@ -88,7 +88,7 @@ def gradient_descent(data: pandas.DataFrame, prediction: list[float], verity: li
     
     return theta
 
-ITTERATION_NUMBER = 2000
+ITTERATION_NUMBER = 10000
 # Return theta  and the cost for all houses
 def fit(data, houses) -> tuple[list[float], float]:
     if numpy.shape(data)[0] != len(houses):
