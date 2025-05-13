@@ -48,7 +48,7 @@ def main():
     # showCost(ret)
     # saveThetas(ret[0])
     
-    LENGTH = 60
+    LENGTH = 30
     totalAccuracy = 0
     for i in range(LENGTH):
         seed = random.randint(1, 100)
